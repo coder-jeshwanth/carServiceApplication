@@ -45,21 +45,6 @@ public class CarServiceImpl implements CarService{
 
 	@Override
 	public ResponseEntity<ResponseStructure<CarResponse>> deleteByCarId(int carId) {
-//		Optional<Car> optional = carRepository.findById(carId);
-//		if (optional.isPresent()) {
-//			Car car = optional.get();
-//			carRepository.delete(car);
-//			CarResponse carResponse =  carMapper.mapToCarResponse(car);
-//			
-//			ResponseStructure<CarResponse> responseStructure = new ResponseStructure<CarResponse>();
-//			responseStructure.setStatuscode(HttpStatus.OK.value());
-//			responseStructure.setMessage("Car Object deleted successfully!!");
-//			responseStructure.setData(carResponse);
-//			 
-//			return new ResponseEntity<ResponseStructure<CarResponse>>(responseStructure, HttpStatus.OK);
-//		}
-//		throw new CarNotFoundByIdException("Car Object Not Found!!");
-		
 
 		return carRepository.findById(carId)
 		        .map(car -> {
@@ -77,12 +62,6 @@ public class CarServiceImpl implements CarService{
 
 	@Override
 	public ResponseEntity<ResponseStructure<List<CarResponse>>> findAllCar() {
-//		List<Car> car = carRepository.findAll();
-//		List<CarResponse> carResponse = new ArrayList<CarResponse>(); 
-//		for (Car car2 : car) {
-//			CarResponse  carResponse1 = carMapper.mapToCarResponse(car2);
-//			carResponse.add(carResponse1);
-//		}
 		
 		List<CarResponse> responses = carRepository.findAll()
 	            .stream()
@@ -111,23 +90,6 @@ public class CarServiceImpl implements CarService{
 
 	@Override
 	public ResponseEntity<ResponseStructure<CarResponse>> findByCarId(int carId) {
-//		Optional<Car> optional  = carRepository.findById(carId);
-//		
-//		if(optional.isPresent()) {
-//			Car car = optional.get();
-//			CarResponse carResponse =  carMapper.mapToCarResponse(car);
-//			
-//			 ResponseStructure<CarResponse> responseStructure = new ResponseStructure<CarResponse>();
-//			 responseStructure.setStatuscode(HttpStatus.FOUND.value());
-//			 responseStructure.setMessage("Actor Object found successfully!!");
-//			 responseStructure.setData(carResponse);
-//			 
-//			 return new ResponseEntity<ResponseStructure<CarResponse>>(responseStructure, HttpStatus.FOUND);
-//
-//		}
-//		else {
-//			throw new CarNotFoundByIdException("Car Object Not Found!!");
-//		}
 		
 		return carRepository.findById(carId)
 				.map(car -> ResponseEntity
@@ -141,27 +103,6 @@ public class CarServiceImpl implements CarService{
 
 	@Override
 	public ResponseEntity<ResponseStructure<CarResponse>> updatedByCarId(int id, CarRequest carRequest) {
-//		Optional<Car> optional = carRepository.findById(id);
-//		if (optional.isPresent()) {
-//			Car existingCar = optional.get();
-//			
-//			Car car = carMapper.mapToCar(carRequest);
-//            car.setCarId(existingCar.getCarId());
-//			
-//			car = carRepository.save(car);
-//			
-//			CarResponse response = carMapper.mapToCarResponse(car);
-//			
-//			ResponseStructure<CarResponse> responseStructure = new ResponseStructure<CarResponse>();
-//			responseStructure.setStatuscode(HttpStatus.OK.value());
-//			responseStructure.setMessage("Car Object Updated successfully!!");
-//			responseStructure.setData(response);
-//			return new ResponseEntity<ResponseStructure<CarResponse>>(responseStructure, HttpStatus.OK);
-//		
-//		} else {
-//			throw new CarNotFoundByIdException("Car Object Not Found!!");
-//		}
-
 		
 		 return carRepository.findById(id)
 			        .map(existingCar -> {
