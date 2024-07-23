@@ -1,5 +1,7 @@
 package com.practice.csa.serviceImplementation;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +38,30 @@ public class UserServiceImpl implements UserService {
 		responseStructure.setData(userResponse);
 		 
 		return new ResponseEntity<ResponseStructure<UserResponse>>(responseStructure, HttpStatus.CREATED);
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<UserResponse>> deleteByUserId(int userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<List<UserResponse>>> findAllUser() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<UserResponse>> findByUserId(int userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ResponseEntity<ResponseStructure<UserResponse>> updatedByUserId(int id, UserRequest userRequest) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	
