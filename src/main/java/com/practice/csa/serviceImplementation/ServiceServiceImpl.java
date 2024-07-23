@@ -45,20 +45,6 @@ public class ServiceServiceImpl implements ServiceService {
 
 	@Override
 	public ResponseEntity<ResponseStructure<ServiceResponse>> deleteByServiceId(int serviceId) {
-//		Optional<com.practice.csa.entity.Service> optional = serviceRepository.findById(serviceId);
-//		if (optional.isPresent()) {
-//			com.practice.csa.entity.Service service = optional.get();
-//			serviceRepository.delete(service);
-//			ServiceResponse serviceResponse =  serviceMapper.mapToServiceResponse(service);
-//			
-//			ResponseStructure<ServiceResponse> responseStructure = new ResponseStructure<ServiceResponse>();
-//			responseStructure.setStatuscode(HttpStatus.CREATED.value());
-//			responseStructure.setMessage("Service Object deleted successfully!!");
-//			responseStructure.setData(serviceResponse);
-//			 
-//			return new ResponseEntity<ResponseStructure<ServiceResponse>>(responseStructure, HttpStatus.CREATED);
-//		}
-//		throw new ServiceNotFoundByIdException("Service Object Not Found!!");
 	
 		return serviceRepository.findById(serviceId)
 		        .map(service -> {
@@ -76,12 +62,6 @@ public class ServiceServiceImpl implements ServiceService {
 
 	@Override
 	public ResponseEntity<ResponseStructure<List<ServiceResponse>>> findAllService() {
-//		List<com.practice.csa.entity.Service> service = serviceRepository.findAll();
-//		List<ServiceResponse> serviceResponse = new ArrayList<ServiceResponse>(); 
-//		for (com.practice.csa.entity.Service service1 : service) {
-//			ServiceResponse  serviceResponse1 = serviceMapper.mapToServiceResponse(service1);
-//			serviceResponse.add(serviceResponse1);
-//		}
 		List<ServiceResponse> responses = serviceRepository.findAll()
 				.stream()
 				.map(service -> serviceMapper.mapToServiceResponse(service))
@@ -106,22 +86,7 @@ public class ServiceServiceImpl implements ServiceService {
 
 	@Override
 	public ResponseEntity<ResponseStructure<ServiceResponse>> findByServiceId(int serviceId) {
-//		Optional<com.practice.csa.entity.Service> optional  = serviceRepository.findById(serviceId);
-//		
-//		if(optional.isPresent()) {
-//			com.practice.csa.entity.Service service = optional.get();
-//			ServiceResponse serviceResponse =  serviceMapper.mapToServiceResponse(service);
-//			
-//			ResponseStructure<ServiceResponse> responseStructure = new ResponseStructure<ServiceResponse>();
-//			responseStructure.setStatuscode(HttpStatus.CREATED.value());
-//			responseStructure.setMessage("Service Object found successfully!!");
-//			responseStructure.setData(serviceResponse);
-//			 
-//			return new ResponseEntity<ResponseStructure<ServiceResponse>>(responseStructure, HttpStatus.CREATED);
-//		}
-//		else {
-//			throw new ServiceNotFoundByIdException("Service Object Not Found!!");
-//		}
+
 		return serviceRepository.findById(serviceId)
 		.map(service -> ResponseEntity
 				 .status(HttpStatus.FOUND)
@@ -134,25 +99,6 @@ public class ServiceServiceImpl implements ServiceService {
 
 	@Override
 	public ResponseEntity<ResponseStructure<ServiceResponse>> updatedByServiceId(int id,ServiceRequest serviceRequest) {
-//		Optional<com.practice.csa.entity.Service> optional = serviceRepository.findById(id);
-//		if (optional.isPresent()) {
-//			com.practice.csa.entity.Service existingService = optional.get();
-//			
-//			com.practice.csa.entity.Service service = serviceMapper.mapToService(serviceRequest);
-//            service.setServiceId(existingService.getServiceId());
-//			
-//			service = serviceRepository.save(service);
-//			
-//			ResponseStructure<ServiceResponse> responseStructure = new ResponseStructure<ServiceResponse>();
-//			responseStructure.setStatuscode(HttpStatus.CREATED.value());
-//			responseStructure.setMessage("Service Object found successfully!!");
-//			responseStructure.setData(serviceMapper.mapToServiceResponse(service));
-//			 
-//			return new ResponseEntity<ResponseStructure<ServiceResponse>>(responseStructure, HttpStatus.CREATED);
-//		
-//		} else {
-//			throw new ServiceNotFoundByIdException("Service Object Not Found!!");
-//		}
 	
 		return serviceRepository.findById(id)
 		        .map(existingService -> {
