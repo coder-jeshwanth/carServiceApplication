@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,16 +30,19 @@ public class CarController {
 	private CarService carService;
 	
 	@PostMapping("/cars")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<ResponseStructure<CarResponse>> addCar(@RequestBody CarRequest car) {
 		return carService.addCar(car);	
 	}
 	
 	@DeleteMapping("/cars/{carId}")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<ResponseStructure<CarResponse>> deleteById(@PathVariable int carId) {
 		return carService.deleteByCarId(carId);
 	}
 	
 	@GetMapping("/cars")
+	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<ResponseStructure<List<CarResponse>>> findAllCar() {
 		return carService.findAllCar();
 	}

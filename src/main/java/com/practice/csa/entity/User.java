@@ -16,8 +16,8 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
 	private String userName;
-	private String userEmailId;
-	private String userPassword;
+	private String email;
+	private String password;
 	
 	@Enumerated(EnumType.STRING)
 	private UserRole userRole;
@@ -38,20 +38,20 @@ public class User {
 		this.userName = userName;
 	}
 
-	public String getUserEmailId() {
-		return userEmailId;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setUserEmailId(String userEmailId) {
-		this.userEmailId = userEmailId;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public String getUserPassword() {
-		return userPassword;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setUserPassword(String userPassword) {
-		this.userPassword = userPassword;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public UserRole getUserRole() {

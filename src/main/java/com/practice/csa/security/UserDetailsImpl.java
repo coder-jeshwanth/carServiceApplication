@@ -1,8 +1,10 @@
 package com.practice.csa.security;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.practice.csa.entity.User;
@@ -13,25 +15,28 @@ public class UserDetailsImpl implements UserDetails {
 	
 	public UserDetailsImpl(User user) {
 		super();
+		System.err.println(user.getEmail());
 		this.user = user;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
-		return null;
+		return List.of(new SimpleGrantedAuthority(user.getUserRole().name()));
 	}
 
 	@Override
 	public String getPassword() {
-
-		return user.getUserPassword();
+		
+		return user.getPassword();
 	}
 
 	@Override
 	public String getUsername() {
-
-		return user.getUserEmailId();
+		
+		return user.getEmail();
 	}
+
+	
 
 }
