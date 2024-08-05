@@ -30,7 +30,7 @@ public class CarController {
 	private CarService carService;
 	
 	@PostMapping("/cars")
-	@PreAuthorize("hasAuthority('ADMIN')")
+//	@PreAuthorize("hasAuthority('ADMIN')")
 	public ResponseEntity<ResponseStructure<CarResponse>> addCar(@RequestBody CarRequest car) {
 		return carService.addCar(car);	
 	}

@@ -19,4 +19,6 @@ public interface UserService {
 	public ResponseEntity<ResponseStructure<UserResponse>> findByUserId(int userId);
 	
 	public ResponseEntity<ResponseStructure<UserResponse>> updatedByUserId(int id, UserRequest userRequest);
+	
+	public ResponseEntity<ResponseStructure<String>> login(String username,String password);
 }

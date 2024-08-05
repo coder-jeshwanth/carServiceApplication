@@ -1,5 +1,7 @@
 package com.practice.csa.entity;
 
+import java.util.List;
+
 import com.practice.csa.utility.UserRole;
 
 import jakarta.persistence.Entity;
@@ -8,6 +10,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class User {
@@ -21,6 +25,20 @@ public class User {
 	
 	@Enumerated(EnumType.STRING)
 	private UserRole userRole;
+	
+	@OneToOne(mappedBy = "user")
+	private Cart cart;
+	
+	@OneToMany(mappedBy = "mechanic")
+	private List<Contract> contracts;
+	
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
+	}
 
 	public int getUserId() {
 		return userId;
@@ -62,6 +80,17 @@ public class User {
 		this.userRole = userRole;
 	}
 
+	public List<Contract> getContracts() {
+		return contracts;
+	}
+
+	public void setContracts(List<Contract> contracts) {
+		this.contracts = contracts;
+	}
+
+	
+
+	
 	
 	
 	

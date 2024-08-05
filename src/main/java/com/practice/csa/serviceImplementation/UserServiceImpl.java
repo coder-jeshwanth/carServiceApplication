@@ -1,23 +1,30 @@
 package com.practice.csa.serviceImplementation;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.practice.csa.entity.Cart;
 import com.practice.csa.entity.User;
-import com.practice.csa.exception.ServiceNotFoundByIdException;
 import com.practice.csa.exception.UserNotFoundByIdException;
+import com.practice.csa.exception.UsernameNotFoundException;
 import com.practice.csa.mapper.UserMapper;
+import com.practice.csa.repository.CartRepository;
 import com.practice.csa.repository.UserRepository;
 import com.practice.csa.requestDto.UserRequest;
-import com.practice.csa.responseDto.ServiceResponse;
 import com.practice.csa.responseDto.UserResponse;
+import com.practice.csa.security.JwtService;
 import com.practice.csa.service.UserService;
 import com.practice.csa.utility.ResponseStructure;
+import com.practice.csa.utility.UserRole;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,11 +35,27 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserMapper userMapper;
 	
+	@Autowired
+	private CartRepository cartRepository;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private JwtService jwtService;
+	
 	@Override
 	public ResponseEntity<ResponseStructure<UserResponse>> addUser(UserRequest userRequest) {
         User user = userMapper.mapToUser(userRequest);
+        
+        if(user.getUserRole().equals(UserRole.CUSTOMER)) {
+        	Cart cart = new Cart();
+        	cart = cartRepository.save(cart);
+        	cart.setUser(user);
+        }
+        
+        user = userRepository.save(user);
 		
-		user = userRepository.save(user);
 		
 		UserResponse userResponse = userMapper.mapToUserResponse(user);
 		
@@ -124,5 +147,31 @@ public class UserServiceImpl implements UserService {
 	}
 
 
+	
+	public ResponseEntity<ResponseStructure<String>> login(String username,String password){
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password,null);
+		Authentication auth = authenticationManager.authenticate(token);
+		if(auth.isAuthenticated()) {
+			SecurityContextHolder
+			.getContext()
+			.setAuthentication(auth);
+			
+			return userRepository.findByEmail(username)
+			.map(user->{
+				String jwt = jwtService.createJwt(user.getUserName(), user.getUserRole().name(), Duration.ofDays(1));
+				
+				return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(new ResponseStructure<String>()
+						.setStatuscode(HttpStatus.OK.value())
+						.setMessage("Succesfully logged")
+						.setData(jwt)
+						);
+			})
+			.orElseThrow(() -> new UsernameNotFoundException("user not found"));
+		}else {
+			throw new UsernameNotFoundException("user credentials not found");
+		}
+	}
 	
 }

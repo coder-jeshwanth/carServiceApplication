@@ -1,9 +1,11 @@
 package com.practice.csa.controller;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,7 @@ import com.practice.csa.requestDto.ServiceRequest;
 import com.practice.csa.requestDto.UserRequest;
 import com.practice.csa.responseDto.ServiceResponse;
 import com.practice.csa.responseDto.UserResponse;
+import com.practice.csa.security.JwtService;
 import com.practice.csa.service.UserService;
 import com.practice.csa.utility.ResponseStructure;
 
@@ -24,6 +27,12 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private JwtService jwtService;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
 	
 	@PostMapping("/users")
 	public ResponseEntity<ResponseStructure<UserResponse>> addUser(@RequestBody UserRequest userRequest) {
@@ -49,6 +58,11 @@ public class UserController {
 	public ResponseEntity<ResponseStructure<UserResponse>> updateByUserId(@PathVariable int userId,@RequestBody UserRequest userRequest) {
 		return userService.updatedByUserId(userId,userRequest);
 	}	
+	
+	@PostMapping("/user-login")
+	public String login(){
+		return jwtService.createJwt("kittu@gmail.com","CUSTOMER", Duration.ofDays(1));
+	}
 	
 	@GetMapping("/get")
 	public String get() {

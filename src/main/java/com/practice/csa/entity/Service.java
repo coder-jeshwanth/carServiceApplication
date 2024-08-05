@@ -1,9 +1,12 @@
 package com.practice.csa.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Service {
@@ -14,6 +17,9 @@ public class Service {
 	private String serviceType;
 	private int serviceCost;
 	private String serviceDescription;
+	
+	@OneToMany(mappedBy = "service")
+	private List<Contract> contracts;
 	
 	public int getServiceId() {
 		return serviceId;
@@ -40,6 +46,15 @@ public class Service {
 	public void setServiceDescription(String serviceDescription) {
 		this.serviceDescription = serviceDescription;
 	}
+	public List<Contract> getContracts() {
+		return contracts;
+	}
+	public void setContracts(List<Contract> contracts) {
+		this.contracts = contracts;
+	}
+	
+	
+	
 	
 	
 }
