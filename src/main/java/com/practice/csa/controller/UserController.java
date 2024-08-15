@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.practice.csa.requestDto.LoginRequest;
 import com.practice.csa.requestDto.ServiceRequest;
 import com.practice.csa.requestDto.UserRequest;
 import com.practice.csa.responseDto.ServiceResponse;
@@ -62,6 +63,11 @@ public class UserController {
 	@PostMapping("/user-login")
 	public String login(){
 		return jwtService.createJwt("kittu@gmail.com","CUSTOMER", Duration.ofDays(1));
+	}
+	
+	@PostMapping("/login")
+	public ResponseEntity<ResponseStructure<String>> login(@RequestBody LoginRequest loginRequest){
+		return userService.login(loginRequest);
 	}
 	
 	@GetMapping("/get")

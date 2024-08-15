@@ -11,6 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.practice.csa.entity.Cart;
 import com.practice.csa.entity.User;
@@ -19,6 +20,7 @@ import com.practice.csa.exception.UsernameNotFoundException;
 import com.practice.csa.mapper.UserMapper;
 import com.practice.csa.repository.CartRepository;
 import com.practice.csa.repository.UserRepository;
+import com.practice.csa.requestDto.LoginRequest;
 import com.practice.csa.requestDto.UserRequest;
 import com.practice.csa.responseDto.UserResponse;
 import com.practice.csa.security.JwtService;
@@ -146,17 +148,17 @@ public class UserServiceImpl implements UserService {
 		        .orElseThrow(() -> new UserNotFoundByIdException("User object not found"));
 	}
 
-
+ 
 	
-	public ResponseEntity<ResponseStructure<String>> login(String username,String password){
-		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(username, password,null);
+	public ResponseEntity<ResponseStructure<String>> login(LoginRequest loginRequest){
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword(),null);
 		Authentication auth = authenticationManager.authenticate(token);
 		if(auth.isAuthenticated()) {
 			SecurityContextHolder
 			.getContext()
 			.setAuthentication(auth);
 			
-			return userRepository.findByEmail(username)
+			return userRepository.findByEmail(loginRequest.getUsername())
 			.map(user->{
 				String jwt = jwtService.createJwt(user.getUserName(), user.getUserRole().name(), Duration.ofDays(1));
 				
